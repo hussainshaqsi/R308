@@ -1,114 +1,154 @@
-"""import math
-class Point:
-    def __init__(self,x:float=0.0,y:float=0.0):
-        self.__x = x
-        self.__y = y
-
-    def distanceCoord(self,x:float,y:float)-> float:
-        return math.sqrt((self.__x_x) * (self.__x_x) + (self.__y_y) * (self.__y_y))
-
-    def distancePoint(self,camarade: Point )-> float:
-        return self.distanceCoord(camarade.x,camarade.y)
-
-    def __str__(self):
-        return f"Point(x={self.__x},y={self.__y})"
-
-    if __name__ == "__main__":
-        p1:Point = Point()
-        p2:Point = Point(2,3)
-        print(p2.distancePoint(p1))
-        print(p1.distanceCoord(2,2))
-"""
 import math
 
 
 class Point:
     def __init__(self, x=0.0, y=0.0):
-        self.x = x
-        self.y = y
+        self._x = x
+        self._y = y
+
+    def getX(self):
+        return self._x
+
+    def setX(self, x):
+        self._x = x
+
+    def getY(self):
+        return self._y
+
+    def setY(self, y):
+        self._y = y
 
     def distanceCoord(self, a, b):
-        return math.sqrt((self.x - a) ** 2 + (self.y - b) ** 2)
+        return math.sqrt((self._x - a) ** 2 + (self._y - b) ** 2)
 
     def distancePoint(self, camarade):
-        return self.distanceCoord(camarade.x, camarade.y)
+        return self.distanceCoord(camarade.getX(), camarade.getY())
 
     def __str__(self):
-        return f"({self.x}, {self.y})"
+        return f"({self._x}, {self._y})"
 
 
 class Cercle:
     def __init__(self, rayon, centre=None):
-        self.rayon = rayon
-        self.centre = centre if centre else Point()
+        self._rayon = rayon
+        self._centre = centre if centre else Point()
+
+    def getRayon(self):
+        return self._rayon
+
+    def setRayon(self, rayon):
+        self._rayon = rayon
+
+    def getCentre(self):
+        return self._centre
+
+    def setCentre(self, centre):
+        self._centre = centre
 
     def diametre(self):
-        return 2 * self.rayon
+        return 2 * self._rayon
 
     def perimetre(self):
-        return 2 * math.pi * self.rayon
+        return 2 * math.pi * self._rayon
 
     def surface(self):
-        return math.pi * self.rayon ** 2
+        return math.pi * self._rayon ** 2
 
     def estSecant(self, autre):
-        d = self.centre.distancePoint(autre.centre)
-        return abs(self.rayon - autre.rayon) < d < self.rayon + autre.rayon
+        d = self._centre.distancePoint(autre.getCentre())
+        return abs(self._rayon - autre.getRayon()) < d < self._rayon + autre.getRayon()
 
     def contientPoint(self, point):
-        return self.centre.distancePoint(point) <= self.rayon
+        return self._centre.distancePoint(point) <= self._rayon
 
 
 class Rectangle:
     def __init__(self, bas_gauche=None, longueur=1.0, hauteur=1.0, haut_droit=None):
-        self.bas_gauche = bas_gauche if bas_gauche else Point()
+        self._bas_gauche = bas_gauche if bas_gauche else Point()
         if haut_droit:
-            self.longueur = haut_droit.x - self.bas_gauche.x
-            self.hauteur = haut_droit.y - self.bas_gauche.y
+            self._longueur = haut_droit.getX() - self._bas_gauche.getX()
+            self._hauteur = haut_droit.getY() - self._bas_gauche.getY()
         else:
-            self.longueur = longueur
-            self.hauteur = hauteur
+            self._longueur = longueur
+            self._hauteur = hauteur
+
+    def getBasGauche(self):
+        return self._bas_gauche
+
+    def setBasGauche(self, point):
+        self._bas_gauche = point
+
+    def getLongueur(self):
+        return self._longueur
+
+    def setLongueur(self, longueur):
+        self._longueur = longueur
+
+    def getHauteur(self):
+        return self._hauteur
+
+    def setHauteur(self, hauteur):
+        self._hauteur = hauteur
 
     def surface(self):
-        return self.longueur * self.hauteur
+        return self._longueur * self._hauteur
 
     def perimetre(self):
-        return 2 * (self.longueur + self.hauteur)
+        return 2 * (self._longueur + self._hauteur)
 
     def pointBasGauche(self):
-        return self.bas_gauche
+        return self._bas_gauche
 
     def pointBasDroit(self):
-        return Point(self.bas_gauche.x + self.longueur, self.bas_gauche.y)
+        return Point(self._bas_gauche.getX() + self._longueur, self._bas_gauche.getY())
 
     def pointHautGauche(self):
-        return Point(self.bas_gauche.x, self.bas_gauche.y + self.hauteur)
+        return Point(self._bas_gauche.getX(), self._bas_gauche.getY() + self._hauteur)
 
     def pointHautDroit(self):
-        return Point(self.bas_gauche.x + self.longueur, self.bas_gauche.y + self.hauteur)
+        return Point(self._bas_gauche.getX() + self._longueur, self._bas_gauche.getY() + self._hauteur)
 
     def contientPoint(self, point):
-        return (self.bas_gauche.x <= point.x <= self.bas_gauche.x + self.longueur and
-                self.bas_gauche.y <= point.y <= self.bas_gauche.y + self.hauteur)
+        dans_x = self._bas_gauche.getX() <= point.getX() <= self._bas_gauche.getX() + self._longueur
+        dans_y = self._bas_gauche.getY() <= point.getY() <= self._bas_gauche.getY() + self._hauteur
+        return dans_x and dans_y
 
 
 class TriangleRectangle:
     def __init__(self, cote1, cote2, point_angle_droit=None):
-        self.cote1 = cote1
-        self.cote2 = cote2
-        self.point_angle_droit = point_angle_droit if point_angle_droit else Point()
+        self._cote1 = cote1
+        self._cote2 = cote2
+        self._point_angle_droit = point_angle_droit if point_angle_droit else Point()
+
+    def getCote1(self):
+        return self._cote1
+
+    def setCote1(self, cote1):
+        self._cote1 = cote1
+
+    def getCote2(self):
+        return self._cote2
+
+    def setCote2(self, cote2):
+        self._cote2 = cote2
+
+    def getPointAngleDroit(self):
+        return self._point_angle_droit
+
+    def setPointAngleDroit(self, point):
+        self._point_angle_droit = point
 
     def hypotenuse(self):
-        return math.sqrt(self.cote1 ** 2 + self.cote2 ** 2)
+        return math.sqrt(self._cote1 ** 2 + self._cote2 ** 2)
 
     def perimetre(self):
-        return self.cote1 + self.cote2 + self.hypotenuse()
+        return self._cote1 + self._cote2 + self.hypotenuse()
 
     def surface(self):
-        return (self.cote1 * self.cote2) / 2
+        return (self._cote1 * self._cote2) / 2
 
     def estIsocele(self):
-        return self.cote1 == self.cote2
+        return self._cote1 == self._cote2
 
 
 def Principale():
