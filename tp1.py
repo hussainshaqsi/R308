@@ -6,23 +6,27 @@ class Point:
         self._x = x
         self._y = y
 
-    def getX(self):
+    @property
+    def x(self):
         return self._x
 
-    def setX(self, x):
-        self._x = x
+    @x.setter
+    def x(self, value):
+        self._x = value
 
-    def getY(self):
+    @property
+    def y(self):
         return self._y
 
-    def setY(self, y):
-        self._y = y
+    @y.setter
+    def y(self, value):
+        self._y = value
 
     def distanceCoord(self, a, b):
         return math.sqrt((self._x - a) ** 2 + (self._y - b) ** 2)
 
     def distancePoint(self, camarade):
-        return self.distanceCoord(camarade.getX(), camarade.getY())
+        return self.distanceCoord(camarade.x, camarade.y)
 
     def __str__(self):
         return f"({self._x}, {self._y})"
@@ -33,17 +37,21 @@ class Cercle:
         self._rayon = rayon
         self._centre = centre if centre else Point()
 
-    def getRayon(self):
+    @property
+    def rayon(self):
         return self._rayon
 
-    def setRayon(self, rayon):
-        self._rayon = rayon
+    @rayon.setter
+    def rayon(self, value):
+        self._rayon = value
 
-    def getCentre(self):
+    @property
+    def centre(self):
         return self._centre
 
-    def setCentre(self, centre):
-        self._centre = centre
+    @centre.setter
+    def centre(self, value):
+        self._centre = value
 
     def diametre(self):
         return 2 * self._rayon
@@ -55,8 +63,8 @@ class Cercle:
         return math.pi * self._rayon ** 2
 
     def estSecant(self, autre):
-        d = self._centre.distancePoint(autre.getCentre())
-        return abs(self._rayon - autre.getRayon()) < d < self._rayon + autre.getRayon()
+        d = self._centre.distancePoint(autre.centre)
+        return abs(self._rayon - autre.rayon) < d < self._rayon + autre.rayon
 
     def contientPoint(self, point):
         return self._centre.distancePoint(point) <= self._rayon
@@ -66,29 +74,35 @@ class Rectangle:
     def __init__(self, bas_gauche=None, longueur=1.0, hauteur=1.0, haut_droit=None):
         self._bas_gauche = bas_gauche if bas_gauche else Point()
         if haut_droit:
-            self._longueur = haut_droit.getX() - self._bas_gauche.getX()
-            self._hauteur = haut_droit.getY() - self._bas_gauche.getY()
+            self._longueur = haut_droit.x - self._bas_gauche.x
+            self._hauteur = haut_droit.y - self._bas_gauche.y
         else:
             self._longueur = longueur
             self._hauteur = hauteur
 
-    def getBasGauche(self):
+    @property
+    def bas_gauche(self):
         return self._bas_gauche
 
-    def setBasGauche(self, point):
+    @bas_gauche.setter
+    def bas_gauche(self, point):
         self._bas_gauche = point
 
-    def getLongueur(self):
+    @property
+    def longueur(self):
         return self._longueur
 
-    def setLongueur(self, longueur):
-        self._longueur = longueur
+    @longueur.setter
+    def longueur(self, value):
+        self._longueur = value
 
-    def getHauteur(self):
+    @property
+    def hauteur(self):
         return self._hauteur
 
-    def setHauteur(self, hauteur):
-        self._hauteur = hauteur
+    @hauteur.setter
+    def hauteur(self, value):
+        self._hauteur = value
 
     def surface(self):
         return self._longueur * self._hauteur
@@ -100,17 +114,17 @@ class Rectangle:
         return self._bas_gauche
 
     def pointBasDroit(self):
-        return Point(self._bas_gauche.getX() + self._longueur, self._bas_gauche.getY())
+        return Point(self._bas_gauche.x + self._longueur, self._bas_gauche.y)
 
     def pointHautGauche(self):
-        return Point(self._bas_gauche.getX(), self._bas_gauche.getY() + self._hauteur)
+        return Point(self._bas_gauche.x, self._bas_gauche.y + self._hauteur)
 
     def pointHautDroit(self):
-        return Point(self._bas_gauche.getX() + self._longueur, self._bas_gauche.getY() + self._hauteur)
+        return Point(self._bas_gauche.x + self._longueur, self._bas_gauche.y + self._hauteur)
 
     def contientPoint(self, point):
-        dans_x = self._bas_gauche.getX() <= point.getX() <= self._bas_gauche.getX() + self._longueur
-        dans_y = self._bas_gauche.getY() <= point.getY() <= self._bas_gauche.getY() + self._hauteur
+        dans_x = self._bas_gauche.x <= point.x <= self._bas_gauche.x + self._longueur
+        dans_y = self._bas_gauche.y <= point.y <= self._bas_gauche.y + self._hauteur
         return dans_x and dans_y
 
 
@@ -120,22 +134,28 @@ class TriangleRectangle:
         self._cote2 = cote2
         self._point_angle_droit = point_angle_droit if point_angle_droit else Point()
 
-    def getCote1(self):
+    @property
+    def cote1(self):
         return self._cote1
 
-    def setCote1(self, cote1):
-        self._cote1 = cote1
+    @cote1.setter
+    def cote1(self, value):
+        self._cote1 = value
 
-    def getCote2(self):
+    @property
+    def cote2(self):
         return self._cote2
 
-    def setCote2(self, cote2):
-        self._cote2 = cote2
+    @cote2.setter
+    def cote2(self, value):
+        self._cote2 = value
 
-    def getPointAngleDroit(self):
+    @property
+    def point_angle_droit(self):
         return self._point_angle_droit
 
-    def setPointAngleDroit(self, point):
+    @point_angle_droit.setter
+    def point_angle_droit(self, point):
         self._point_angle_droit = point
 
     def hypotenuse(self):
