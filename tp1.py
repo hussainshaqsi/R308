@@ -69,7 +69,6 @@ class Cercle:
     def contientPoint(self, point):
         return self._centre.distancePoint(point) <= self._rayon
 
-
 class Rectangle:
     def __init__(self, bas_gauche=None, longueur=1.0, hauteur=1.0, haut_droit=None):
         self._bas_gauche = bas_gauche if bas_gauche else Point()
@@ -172,6 +171,46 @@ class TriangleRectangle:
 
 
 def Principale():
+    try:
+        p1 = Point("lala", 4)
+    except TypeError:
+        print("UNE STRING N'EST PAS UN POINT ! ")
+    except Exception as e:
+        print(f"Erreur : {e}")
+    else:
+        print("le point cree est : {p1} ")
+
+
+    try:
+        c1 = Cercle(-5)
+    except TypeError as t :
+        print(f"error de type: {t}")
+    except ValueError as v:
+        print(f"value error : {v}")
+    except Exception as e :
+        print(f"Error : {e}")
+
+    try:
+        r1 = Rectangle(Point(4, 4), haut_droit=Point(1, 1))  # haut_droit mal placé
+    except TypeError as t:
+        print(f"Erreur de type : {t}")
+    except ValueError as v:
+        print(f"Erreur de valeur : {v}")
+    except Exception as e:
+        print(f"Erreur : {e}")
+    else:
+        print(f"success, surface = {r1.surface()}")
+
+    try:
+        t1 = TriangleRectangle(-3, 4)
+    except TypeError as t:
+        print(f"Erreur de type : {t}")
+    except ValueError as v:
+        print(f"Erreur de valeur : {v}")
+    except Exception as e:
+        print(f"Erreur inconnue : {e}")
+    else:
+        print(f"hypotenuse = {t1.hypotenuse()}")
     p1 = Point()
     p2 = Point(3, 4)
     print(p1)
